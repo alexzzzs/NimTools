@@ -13,11 +13,12 @@ template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.filter(proc(x: int): bool = x mod 2 == 0) == @[2, 4]
-  var result: seq[T] = @[]
-  for item in s:
-    if predicate(item):
-      result.add(item)
-  result
+  block:
+    var result: seq[T] = @[]
+    for item in s:
+      if predicate(item):
+        result.add(item)
+    result
 
 template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
   ## Transform each element in the sequence
@@ -25,10 +26,11 @@ template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.map(proc(x: int): int = x * 2) == @[2, 4, 6]
-  var result: seq[U] = @[]
-  for item in s:
-    result.add(transform(item))
-  result
+  block:
+    var result: seq[U] = @[]
+    for item in s:
+      result.add(transform(item))
+    result
 
 template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
   ## Reduce sequence to a single value using the operation
@@ -36,13 +38,14 @@ template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
   ## Example:
   ##   let nums = @[1, 2, 3, 4]
   ##   assert nums.reduce(proc(a, b: int): int = a + b) == 10
-  when compileOption("boundChecks"):
-    if s.len == 0:
-      raise newException(ValueError, "Cannot reduce empty sequence")
-  var result = s[0]
-  for i in 1..<s.len:
-    result = operation(result, s[i])
-  result
+  block:
+    when compileOption("boundChecks"):
+      if s.len == 0:
+        raise newException(ValueError, "Cannot reduce empty sequence")
+    var result = s[0]
+    for i in 1..<s.len:
+      result = operation(result, s[i])
+    result
 
 template any*[T](s: seq[T], predicate: proc(x: T): bool): bool =
   ## Check if any element matches the predicate
