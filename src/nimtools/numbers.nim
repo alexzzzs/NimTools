@@ -25,7 +25,7 @@ template isOdd*(n: SomeInteger): bool =
 
 template divisibleBy*(n: SomeInteger, divisor: SomeInteger): bool =
   ## Check if n is divisible by divisor
-  ## 
+  ##
   ## Example:
   ##   assert 10.divisibleBy(5)
   ##   assert not 10.divisibleBy(3)
@@ -33,7 +33,7 @@ template divisibleBy*(n: SomeInteger, divisor: SomeInteger): bool =
 
 template between*(n: SomeNumber, min_val, max_val: SomeNumber): bool =
   ## Check if n is between min_val and max_val (inclusive)
-  ## 
+  ##
   ## Example:
   ##   assert 5.between(1, 10)
   ##   assert not 15.between(1, 10)
@@ -41,7 +41,7 @@ template between*(n: SomeNumber, min_val, max_val: SomeNumber): bool =
 
 template clamp*(n: SomeNumber, min_val, max_val: SomeNumber): auto =
   ## Clamp n to be within min_val and max_val
-  ## 
+  ##
   ## Example:
   ##   assert 15.clamp(1, 10) == 10
   ##   assert (-5).clamp(1, 10) == 1
@@ -52,7 +52,7 @@ template clamp*(n: SomeNumber, min_val, max_val: SomeNumber): auto =
 
 template square*(n: SomeNumber): auto =
   ## Return the square of n
-  ## 
+  ##
   ## Example:
   ##   assert 5.square == 25
   ##   assert 3.5.square == 12.25
@@ -60,7 +60,7 @@ template square*(n: SomeNumber): auto =
 
 template cube*(n: SomeNumber): auto =
   ## Return the cube of n
-  ## 
+  ##
   ## Example:
   ##   assert 3.cube == 27
   ##   assert 2.5.cube == 15.625
@@ -70,7 +70,7 @@ template cube*(n: SomeNumber): auto =
 
 template isWhole*(f: SomeFloat): bool =
   ## Check if a float represents a whole number
-  ## 
+  ##
   ## Example:
   ##   assert 5.0.isWhole
   ##   assert not 5.5.isWhole
@@ -78,7 +78,7 @@ template isWhole*(f: SomeFloat): bool =
 
 template near*(a: SomeFloat, b: SomeFloat, epsilon: SomeFloat = 1e-9): bool =
   ## Check if two floats are approximately equal within epsilon
-  ## 
+  ##
   ## Example:
   ##   assert 0.1.near(0.1000001, 1e-5)
   ##   assert not 0.1.near(0.2)
@@ -88,7 +88,7 @@ template near*(a: SomeFloat, b: SomeFloat, epsilon: SomeFloat = 1e-9): bool =
 
 template `|>`*[T, U](x: T, f: proc(x: T): U): U =
   ## Pipe operator for functional-style chaining
-  ## 
+  ##
   ## Example:
   ##   let result = 5 |> square |> (proc(x: int): int = x + 1)
   ##   assert result == 26
