@@ -1,10 +1,10 @@
 ## String helper templates for common string operations
-## 
+##
 ## This module provides expressive, zero-overhead helpers for string manipulation
 ## using template-based dot-call syntax.
 
-import std/strutils
 import std/options
+import std/strutils
 
 template startsWith*(s: string, prefix: string): bool =
   ## Check if string starts with prefix

@@ -1,11 +1,11 @@
 ## Collection helper templates for sequences and arrays
-## 
+##
 ## This module provides expressive, zero-overhead helpers for functional programming
 ## operations on Nim's built-in collection types using template-based dot-call syntax.
 
 import std/algorithm
 
-# Functional programming helpers
+## Functional programming helpers
 
 template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
   ## Filter sequence elements that match the predicate
@@ -101,7 +101,7 @@ template size*[T](s: seq[T]): int =
   ##   assert nums.size == 3
   s.len
 
-# Grouping and chunking helpers
+## Sequence transformation helpers
 
 template chunk*[T](s: seq[T], size: int): seq[seq[T]] =
   ## Split sequence into chunks of specified size
@@ -155,16 +155,16 @@ template unique*[T](s: seq[T]): seq[T] =
   ## Example:
   ##   let nums = @[1, 2, 2, 3, 1]
   ##   assert nums.unique == @[1, 2, 3]
-  var uniqueResult: seq[T] = @[]
-  for currentItem in s:
-    var alreadyExists = false
-    for existingItem in uniqueResult:
-      if currentItem == existingItem:
-        alreadyExists = true
+  var result: seq[T] = @[]
+  for item in s:
+    var found = false
+    for existing in result:
+      if item == existing:
+        found = true
         break
-    if not alreadyExists:
-      uniqueResult.add(currentItem)
-  uniqueResult
+    if not found:
+      result.add(item)
+  result
 
 template hasItem*[T](s: seq[T], item: T): bool =
   ## Check if sequence contains the item
@@ -175,5 +175,4 @@ template hasItem*[T](s: seq[T], item: T): bool =
   ##   assert not nums.hasItem(4)
   item in s
 
-# Note: find template removed due to template expansion conflicts
-# Users can use standard library functions or implement their own find logic
+

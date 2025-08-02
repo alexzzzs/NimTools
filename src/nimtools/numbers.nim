@@ -1,15 +1,15 @@
 ## Numeric helper templates for integers and floats
-## 
+##
 ## This module provides expressive, zero-overhead helpers for numeric operations
 ## using template-based dot-call syntax.
 
 import std/math
 
-# Integer helpers
+## Integer helpers
 
 template isEven*(n: SomeInteger): bool =
   ## Check if an integer is even
-  ## 
+  ##
   ## Example:
   ##   assert 4.isEven
   ##   assert not 3.isEven
@@ -17,7 +17,7 @@ template isEven*(n: SomeInteger): bool =
 
 template isOdd*(n: SomeInteger): bool =
   ## Check if an integer is odd
-  ## 
+  ##
   ## Example:
   ##   assert 3.isOdd
   ##   assert not 4.isOdd
@@ -66,7 +66,7 @@ template cube*(n: SomeNumber): auto =
   ##   assert 2.5.cube == 15.625
   n * n * n
 
-# Float helpers
+## Float helpers
 
 template isWhole*(f: SomeFloat): bool =
   ## Check if a float represents a whole number
@@ -84,7 +84,7 @@ template near*(a: SomeFloat, b: SomeFloat, epsilon: SomeFloat = 1e-9): bool =
   ##   assert not 0.1.near(0.2)
   abs(a - b) < epsilon
 
-# Pipe operator (optional but nice)
+## Pipe operator
 
 template `|>`*[T, U](x: T, f: proc(x: T): U): U =
   ## Pipe operator for functional-style chaining
