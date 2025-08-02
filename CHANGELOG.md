@@ -5,6 +5,13 @@ All notable changes to NimTools will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2025-02-08
+
+### Fixed
+- **Removed Option-based functions** to ensure compatibility with Nim 1.6.0
+- Fixed CI/CD compilation errors that were preventing tests from passing
+- All tests now pass successfully across all platforms and Nim versions
+
 ## [0.3.2] - 2025-02-08
 
 ### Added

@@ -3,8 +3,6 @@
 ## This module provides optional validation functions that can help catch
 ## common mistakes before they cause runtime errors.
 
-import std/options
-
 ## Sequence validation
 
 template requireNonEmpty*[T](s: seq[T], operation: string = "operation"): void =
@@ -128,40 +126,3 @@ template safeRepeat*(s: string, n: int): string =
   for i in 0..<n:
     result.add(s)
   result
-
-## Option-based safe wrappers (no exceptions thrown)
-
-template optionFirst*[T](s: seq[T]): Option[T] =
-  ## Get first element as Option (returns none if empty)
-  ##
-  ## Example:
-  ##   let nums = @[1, 2, 3]
-  ##   let first = nums.optionFirst  # some(1)
-  ##   let empty: seq[int] = @[]
-  ##   let first = empty.optionFirst  # none(int)
-  if s.len > 0: some(s[0]) else: none(T)
-
-template optionLast*[T](s: seq[T]): Option[T] =
-  ## Get last element as Option (returns none if empty)
-  ##
-  ## Example:
-  ##   let nums = @[1, 2, 3]
-  ##   let last = nums.optionLast  # some(3)
-  ##   let empty: seq[int] = @[]
-  ##   let last = empty.optionLast  # none(int)
-  if s.len > 0: some(s[^1]) else: none(T)
-
-template optionReduce*[T](s: seq[T], operation: proc(a, b: T): T): Option[T] =
-  ## Reduce sequence as Option (returns none if empty)
-  ##
-  ## Example:
-  ##   let nums = @[1, 2, 3, 4]
-  ##   let sum = nums.optionReduce(proc(a, b: int): int = a + b)  # some(10)
-  ##   let empty: seq[int] = @[]
-  ##   let sum = empty.optionReduce(proc(a, b: int): int = a + b)  # none(int)
-  if s.len == 0: none(T)
-  else:
-    var result = s[0]
-    for i in 1..<s.len:
-      result = operation(result, s[i])
-    some(result)
