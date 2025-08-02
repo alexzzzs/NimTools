@@ -55,6 +55,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Comprehensive error handling** with runtime validation
+  - `IndexDefect` for empty sequence access (`first`, `last`)
+  - `ValueError` for invalid parameters (`chunk`, `reduce`, `clamp`, `repeat`)
+  - `DivByZeroDefect` for division by zero (`divisibleBy`)
+  - Bounds checking enabled in debug builds
+  - Enhanced edge case handling for string operations
+- New error handling test suite with 12 validation tests
+- Updated documentation with error handling section and best practices
+
+### Improved
+- Better edge case handling for `startsWith` and `endsWith` with empty strings
+- More robust parameter validation across all modules
+- Enhanced compile-time safety with clearer error messages
+
 ### Planned
 - Date/time utilities module
 - Math constants and advanced operations

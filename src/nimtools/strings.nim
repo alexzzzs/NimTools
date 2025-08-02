@@ -12,7 +12,9 @@ template startsWith*(s: string, prefix: string): bool =
   ## Example:
   ##   assert "hello".startsWith("he")
   ##   assert not "hello".startsWith("hi")
-  s.len >= prefix.len and s[0..<prefix.len] == prefix
+  if prefix.len == 0: true
+  elif s.len < prefix.len: false
+  else: s[0..<prefix.len] == prefix
 
 template endsWith*(s: string, suffix: string): bool =
   ## Check if string ends with suffix
@@ -20,7 +22,9 @@ template endsWith*(s: string, suffix: string): bool =
   ## Example:
   ##   assert "hello".endsWith("lo")
   ##   assert not "hello".endsWith("hi")
-  s.len >= suffix.len and s[s.len - suffix.len..^1] == suffix
+  if suffix.len == 0: true
+  elif s.len < suffix.len: false
+  else: s[s.len - suffix.len..^1] == suffix
 
 template hasSubstring*(s: string, sub: string): bool =
   ## Check if string contains substring
@@ -101,6 +105,9 @@ template repeat*(s: string, n: int): string =
   ## 
   ## Example:
   ##   assert "hi".repeat(3) == "hihihi"
+  when compileOption("boundChecks"):
+    if n < 0:
+      raise newException(ValueError, "Cannot repeat string negative times: " & $n)
   var result = ""
   for i in 0..<n:
     result.add(s)

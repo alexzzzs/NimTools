@@ -8,6 +8,7 @@ A lightweight, zero-dependency Nim library that provides expressive, safe, and i
 - **Dot-call friendly**: Natural syntax like `num.isEven` or `str.startsWith("x")`
 - **Modular design**: Import only what you need
 - **Type safe**: Uses Nim's type system and generics appropriately
+- **Error handling**: Comprehensive runtime validation and safe conversion functions
 - **Well tested**: Comprehensive unit tests for all functionality
 
 ## Installation
@@ -147,6 +148,52 @@ import nimtools/collections
 ```bash
 nimble test
 ```
+
+## Error Handling
+
+NimTools provides comprehensive error handling to help catch mistakes early:
+
+### Runtime Validation
+When compiled with bounds checking (`-d:debug`), NimTools validates parameters and raises appropriate exceptions:
+
+```nim
+import nimtools
+
+# These will raise helpful errors in debug mode:
+let empty: seq[int] = @[]
+# empty.first  # IndexDefect: Cannot get first element of empty sequence
+
+let nums = @[1, 2, 3]
+# nums.chunk(0)  # ValueError: Chunk size must be positive, got: 0
+
+# 10.divisibleBy(0)  # DivByZeroDefect: Cannot check divisibility by zero
+```
+
+### Safe Conversions
+String conversions return `Option` types for safe error handling:
+
+```nim
+import std/options
+
+let maybeNum = "123".toIntSafe
+if maybeNum.isSome:
+  echo "Got number: ", maybeNum.get
+else:
+  echo "Invalid input"
+```
+
+### Validation Helpers
+Optional validation module for extra safety:
+
+```nim
+import nimtools/validation
+
+let data = @[1, 2, 3, 4]
+echo data.safeFirst        # 1 (with validation)
+echo data.safeChunk(2)     # @[@[1, 2], @[3, 4]] (with validation)
+```
+
+See `ERROR_GUIDE.md` for comprehensive error handling examples and best practices.
 
 ## Design Philosophy
 

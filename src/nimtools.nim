@@ -6,7 +6,9 @@
 import nimtools/numbers
 import nimtools/strings
 import nimtools/collections
+import nimtools/validation
 
 export numbers
 export strings
 export collections
+export validation

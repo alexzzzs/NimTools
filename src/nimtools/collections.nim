@@ -9,10 +9,12 @@ import std/algorithm
 
 template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
   ## Filter sequence elements that match the predicate
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.filter(proc(x: int): bool = x mod 2 == 0) == @[2, 4]
+  when not (predicate is proc):
+    {.error: "filter() requires a function/proc as second argument, got: " & $typeof(predicate).}
   var result: seq[T] = @[]
   for item in s:
     if predicate(item):
@@ -21,10 +23,12 @@ template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
 
 template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
   ## Transform each element in the sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.map(proc(x: int): int = x * 2) == @[2, 4, 6]
+  when not (transform is proc):
+    {.error: "map() requires a function/proc as second argument, got: " & $typeof(transform).}
   var result: seq[U] = @[]
   for item in s:
     result.add(transform(item))
@@ -32,10 +36,15 @@ template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
 
 template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
   ## Reduce sequence to a single value using the operation
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4]
   ##   assert nums.reduce(proc(a, b: int): int = a + b) == 10
+  when not (operation is proc):
+    {.error: "reduce() requires a function/proc as second argument, got: " & $typeof(operation).}
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(ValueError, "Cannot reduce empty sequence")
   var result = s[0]
   for i in 1..<s.len:
     result = operation(result, s[i])
@@ -43,7 +52,7 @@ template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
 
 template any*[T](s: seq[T], predicate: proc(x: T): bool): bool =
   ## Check if any element matches the predicate
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.any(proc(x: int): bool = x > 2)
@@ -57,7 +66,7 @@ template any*[T](s: seq[T], predicate: proc(x: T): bool): bool =
 
 template all*[T](s: seq[T], predicate: proc(x: T): bool): bool =
   ## Check if all elements match the predicate
-  ## 
+  ##
   ## Example:
   ##   let nums = @[2, 4, 6]
   ##   assert nums.all(proc(x: int): bool = x mod 2 == 0)
@@ -71,23 +80,29 @@ template all*[T](s: seq[T], predicate: proc(x: T): bool): bool =
 
 template first*[T](s: seq[T]): T =
   ## Get the first element of the sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.first == 1
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(IndexDefect, "Cannot get first element of empty sequence")
   s[0]
 
 template last*[T](s: seq[T]): T =
   ## Get the last element of the sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.last == 3
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(IndexDefect, "Cannot get last element of empty sequence")
   s[^1]
 
 template isEmpty*[T](s: seq[T]): bool =
   ## Check if sequence is empty
-  ## 
+  ##
   ## Example:
   ##   assert @[].isEmpty
   ##   assert not @[1].isEmpty
@@ -95,7 +110,7 @@ template isEmpty*[T](s: seq[T]): bool =
 
 template size*[T](s: seq[T]): int =
   ## Get the size of the sequence (alias for len)
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.size == 3
@@ -105,10 +120,13 @@ template size*[T](s: seq[T]): int =
 
 template chunk*[T](s: seq[T], size: int): seq[seq[T]] =
   ## Split sequence into chunks of specified size
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.chunk(2) == @[@[1, 2], @[3, 4], @[5]]
+  when compileOption("boundChecks"):
+    if size <= 0:
+      raise newException(ValueError, "Chunk size must be positive, got: " & $size)
   var result: seq[seq[T]] = @[]
   var i = 0
   while i < s.len:
@@ -119,7 +137,7 @@ template chunk*[T](s: seq[T], size: int): seq[seq[T]] =
 
 template take*[T](s: seq[T], n: int): seq[T] =
   ## Take the first n elements from the sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.take(3) == @[1, 2, 3]
@@ -127,7 +145,7 @@ template take*[T](s: seq[T], n: int): seq[T] =
 
 template drop*[T](s: seq[T], n: int): seq[T] =
   ## Drop the first n elements from the sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.drop(2) == @[3, 4, 5]
@@ -135,7 +153,7 @@ template drop*[T](s: seq[T], n: int): seq[T] =
 
 template reverse*[T](s: seq[T]): seq[T] =
   ## Reverse the sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.reverse == @[3, 2, 1]
@@ -143,7 +161,7 @@ template reverse*[T](s: seq[T]): seq[T] =
 
 template sort*[T](s: seq[T]): seq[T] =
   ## Sort the sequence in ascending order
-  ## 
+  ##
   ## Example:
   ##   let nums = @[3, 1, 2]
   ##   assert nums.sort == @[1, 2, 3]
@@ -151,7 +169,7 @@ template sort*[T](s: seq[T]): seq[T] =
 
 template unique*[T](s: seq[T]): seq[T] =
   ## Remove duplicate elements from sequence
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 2, 3, 1]
   ##   assert nums.unique == @[1, 2, 3]
@@ -168,7 +186,7 @@ template unique*[T](s: seq[T]): seq[T] =
 
 template hasItem*[T](s: seq[T], item: T): bool =
   ## Check if sequence contains the item
-  ## 
+  ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.hasItem(2)

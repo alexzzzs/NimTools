@@ -563,7 +563,80 @@ Most templates return the same type as input or a logical result type:
 
 ## Error Handling
 
-- **Safe conversions** return `Option` types instead of throwing exceptions
-- **Bounds checking** follows Nim's standard behavior (compile-time when possible)
+NimTools provides comprehensive error handling to catch common mistakes at compile time or runtime:
+
+### Runtime Error Checking
+
+When compiled with bounds checking enabled (`-d:debug` or `--boundChecks:on`), NimTools will raise appropriate exceptions for invalid operations:
+
+#### Collections Module Errors
+- **`IndexDefect`**: Thrown when accessing empty sequences
+  ```nim
+  let empty: seq[int] = @[]
+  # These will raise IndexDefect:
+  # empty.first
+  # empty.last
+  ```
+
+- **`ValueError`**: Thrown for invalid parameters
+  ```nim
+  let nums = @[1, 2, 3]
+  # These will raise ValueError:
+  # nums.chunk(0)     # chunk size must be positive
+  # nums.chunk(-1)    # chunk size must be positive
+  # empty.reduce(...)  # cannot reduce empty sequence
+  ```
+
+#### Numbers Module Errors
+- **`DivByZeroDefect`**: Thrown for division by zero
+  ```nim
+  # This will raise DivByZeroDefect:
+  # 10.divisibleBy(0)
+  ```
+
+- **`ValueError`**: Thrown for invalid ranges
+  ```nim
+  # This will raise ValueError:
+  # 5.clamp(10, 1)  # min_val > max_val
+  ```
+
+#### Strings Module Errors
+- **`ValueError`**: Thrown for invalid parameters
+  ```nim
+  # This will raise ValueError:
+  # "hello".repeat(-1)  # negative repeat count
+  ```
+
+### Safe Conversions
+
+String conversion functions return `Option` types for safe error handling:
+
+```nim
+import std/options
+
+# Safe conversions never throw exceptions
+let maybeInt = "123".toIntSafe
+if maybeInt.isSome:
+  echo "Converted: ", maybeInt.get
+else:
+  echo "Conversion failed"
+
+# Or use pattern matching
+case "abc".toIntSafe
+of Some(value): echo "Got: ", value
+of None(): echo "Invalid number"
+```
+
+### Compile-Time Safety
+
 - **Type safety** enforced at compile time through generic constraints
 - **Template expansion** errors provide clear compile-time feedback
+- **Zero-cost abstractions** with full compile-time optimization
+
+### Best Practices
+
+1. **Use safe conversions** for user input: `toIntSafe`, `toFloatSafe`
+2. **Check sequence lengths** before using `first`, `last`, `reduce`
+3. **Validate parameters** before calling functions with constraints
+4. **Enable bounds checking** during development: `nim c -d:debug your_file.nim`
+5. **Handle Option types** properly when using safe conversions

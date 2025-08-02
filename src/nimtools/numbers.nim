@@ -13,6 +13,10 @@ template isEven*(n: SomeInteger): bool =
   ## Example:
   ##   assert 4.isEven
   ##   assert not 3.isEven
+  when n is string:
+    {.error: "isEven() only works with integers, not strings. Use toIntSafe() to convert first.".}
+  when n is SomeFloat:
+    {.error: "isEven() only works with integers. For floats, use: myFloat.int.isEven or check isWhole() first.".}
   (n and 1) == 0
 
 template isOdd*(n: SomeInteger): bool =
@@ -21,6 +25,10 @@ template isOdd*(n: SomeInteger): bool =
   ## Example:
   ##   assert 3.isOdd
   ##   assert not 4.isOdd
+  when n is string:
+    {.error: "isOdd() only works with integers, not strings. Use toIntSafe() to convert first.".}
+  when n is SomeFloat:
+    {.error: "isOdd() only works with integers. For floats, use: myFloat.int.isOdd or check isWhole() first.".}
   (n and 1) == 1
 
 template divisibleBy*(n: SomeInteger, divisor: SomeInteger): bool =
@@ -29,6 +37,9 @@ template divisibleBy*(n: SomeInteger, divisor: SomeInteger): bool =
   ## Example:
   ##   assert 10.divisibleBy(5)
   ##   assert not 10.divisibleBy(3)
+  when compileOption("boundChecks"):
+    if divisor == 0:
+      raise newException(DivByZeroDefect, "Cannot check divisibility by zero")
   (n mod divisor) == 0
 
 template between*(n: SomeNumber, min_val, max_val: SomeNumber): bool =
@@ -46,6 +57,9 @@ template clamp*(n: SomeNumber, min_val, max_val: SomeNumber): auto =
   ##   assert 15.clamp(1, 10) == 10
   ##   assert (-5).clamp(1, 10) == 1
   ##   assert 5.clamp(1, 10) == 5
+  when compileOption("boundChecks"):
+    if min_val > max_val:
+      raise newException(ValueError, "min_val (" & $min_val & ") cannot be greater than max_val (" & $max_val & ")")
   if n < min_val: min_val
   elif n > max_val: max_val
   else: n
