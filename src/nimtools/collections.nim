@@ -7,7 +7,7 @@ import std/algorithm
 
 ## Functional programming helpers
 
-template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
+template filter*[T](s: seq[T], predicate: untyped): seq[T] =
   ## Filter sequence elements that match the predicate
   ##
   ## Example:
@@ -20,7 +20,7 @@ template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
         result.add(item)
     result
 
-template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
+template map*[T, U](s: seq[T], transform: untyped): seq[U] =
   ## Transform each element in the sequence
   ##
   ## Example:
@@ -32,7 +32,7 @@ template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
       result.add(transform(item))
     result
 
-template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
+template reduce*[T](s: seq[T], operation: untyped): T =
   ## Reduce sequence to a single value using the operation
   ##
   ## Example:
@@ -47,7 +47,7 @@ template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
       result = operation(result, s[i])
     result
 
-template any*[T](s: seq[T], predicate: proc(x: T): bool): bool =
+template any*[T](s: seq[T], predicate: untyped): bool =
   ## Check if any element matches the predicate
   ##
   ## Example:
@@ -61,7 +61,7 @@ template any*[T](s: seq[T], predicate: proc(x: T): bool): bool =
         break
     result
 
-template all*[T](s: seq[T], predicate: proc(x: T): bool): bool =
+template all*[T](s: seq[T], predicate: untyped): bool =
   ## Check if all elements match the predicate
   ##
   ## Example:
@@ -189,5 +189,3 @@ template hasItem*[T](s: seq[T], item: T): bool =
   ##   assert nums.hasItem(2)
   ##   assert not nums.hasItem(4)
   item in s
-
-

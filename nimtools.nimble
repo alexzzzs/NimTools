@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.3.5"
+version       = "0.3.6"
 author        = "NimTools Contributors"
 description   = "Lightweight, zero-dependency Nim library with expressive helper APIs for numbers, strings, and collections"
 license       = "MIT"
