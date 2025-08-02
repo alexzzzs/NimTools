@@ -1,4 +1,5 @@
 import unittest
+import std/options
 import ../src/nimtools/validation
 
 suite "Validation module tests":
@@ -72,3 +73,17 @@ suite "Validation module tests":
     
     expect(ValueError):
       discard "hi".safeRepeat(-1)
+  
+  test "option wrappers":
+    let nums = @[1, 2, 3, 4]
+    let empty: seq[int] = @[]
+    
+    # Option operations that should work
+    assert nums.optionFirst.get == 1
+    assert nums.optionLast.get == 4
+    assert nums.optionReduce(proc(a, b: int): int = a + b).get == 10
+    
+    # Option operations on empty sequences
+    assert empty.optionFirst.isNone
+    assert empty.optionLast.isNone
+    assert empty.optionReduce(proc(a, b: int): int = a + b).isNone

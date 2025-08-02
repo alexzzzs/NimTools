@@ -5,6 +5,19 @@ All notable changes to NimTools will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2025-02-08
+
+### Added
+- **Option-based safe functions** in validation module
+  - `optionFirst`, `optionLast`, `optionReduce` that return `Option[T]` instead of throwing exceptions
+  - Safe for users who prefer Option-based error handling over exceptions
+  - Import `std/options` automatically included in validation module
+
+### Fixed
+- Fixed anonymous procedure naming conflicts in collections test suite
+- Resolved CI/CD compilation errors that were causing test failures
+- All tests now pass successfully across all platforms
+
 ## [0.3.1] - 2025-02-08
 
 ### Fixed
