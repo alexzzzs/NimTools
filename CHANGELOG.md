@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generic type support with proper constraints
 - Full type safety with compile-time checking
 
-## [Unreleased]
+## [0.3.0] - 2025-01-02
 
 ### Added
 - **Comprehensive error handling** with runtime validation
@@ -62,13 +62,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `DivByZeroDefect` for division by zero (`divisibleBy`)
   - Bounds checking enabled in debug builds
   - Enhanced edge case handling for string operations
+- **New validation module** (`nimtools/validation`) with safe wrapper functions
+  - `safeFirst`, `safeLast`, `safeReduce` for always-validated operations
+  - `safeChunk`, `safeDivisibleBy`, `safeClamp` with parameter validation
+  - `requireNonEmpty`, `requirePositive`, `requireNonZero` validation helpers
+- **Comprehensive documentation**
+  - `ERROR_GUIDE.md` with examples and best practices
+  - Error handling examples (`examples_error_handling.nim`)
+  - Updated API documentation with error handling information
 - New error handling test suite with 12 validation tests
-- Updated documentation with error handling section and best practices
+- New validation module test suite with comprehensive coverage
 
 ### Improved
 - Better edge case handling for `startsWith` and `endsWith` with empty strings
 - More robust parameter validation across all modules
 - Enhanced compile-time safety with clearer error messages
+- Updated README with error handling section and examples
+
+## [Unreleased]
 
 ### Planned
 - Date/time utilities module

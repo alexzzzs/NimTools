@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.2.0"
+version       = "0.3.0"
 author        = "NimTools Contributors"
 description   = "Lightweight, zero-dependency Nim library with expressive helper APIs for numbers, strings, and collections"
 license       = "MIT"
@@ -23,6 +23,8 @@ task test, "Run all tests":
   exec "nim c -r tests/numbers_test.nim"
   exec "nim c -r tests/strings_test.nim"
   exec "nim c -r tests/collections_test.nim"
+  exec "nim c -r tests/error_handling_test.nim"
+  exec "nim c -r tests/validation_test.nim"
   echo "All tests completed successfully!"
 
 task docs, "Generate documentation":
