@@ -12,25 +12,12 @@ A lightweight, zero-dependency Nim library that provides expressive, safe, and i
 
 ## Installation
 
-### From Nimble Package Registry (when published)
 ```bash
+# Install from GitHub
+nimble install https://github.com/alexzzzs/NimTools.git
+
+# Or when approved for Nimble registry
 nimble install nimtools
-```
-
-### From Git Repository
-```bash
-# Install latest version
-nimble install https://github.com/yourusername/nimtools.git
-
-# Install specific version
-nimble install https://github.com/yourusername/nimtools.git@v0.2.0
-```
-
-### Local Development
-```bash
-git clone https://github.com/yourusername/nimtools.git
-cd nimtools
-nimble install
 ```
 
 ## Quick Start
@@ -143,23 +130,17 @@ echo @[1, 2, 2, 3].unique        # @[1, 2, 3]
 echo nums.hasItem(3)             # true
 ```
 
-## Import Options
+## Usage
 
 ```nim
 # Import everything
 import nimtools
 
-# Import specific modules
+# Or import specific modules
 import nimtools/numbers
 import nimtools/strings
 import nimtools/collections
-
-# Import with prefix to avoid conflicts
-from nimtools/numbers import nil
-echo numbers.isEven(4)
 ```
-
-**Note**: If you're using both `nimtools/collections` and `std/options`, import collections first to avoid naming conflicts with the `filter` function.
 
 ## Running Tests
 

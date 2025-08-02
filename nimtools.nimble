@@ -34,10 +34,6 @@ task example, "Run example":
   echo "Running example..."
   exec "nim c -r example.nim"
 
-task verify, "Verify installation":
-  echo "Verifying NimTools installation..."
-  exec "nim c -r verify_install.nim"
-
 task clean, "Clean build artifacts":
   echo "Cleaning build artifacts..."
   exec "rm -f *.exe tests/*.exe"
