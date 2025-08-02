@@ -13,8 +13,6 @@ template filter*[T](s: seq[T], predicate: proc(x: T): bool): seq[T] =
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.filter(proc(x: int): bool = x mod 2 == 0) == @[2, 4]
-  when not (predicate is proc):
-    {.error: "filter() requires a function/proc as second argument, got: " & $typeof(predicate).}
   var result: seq[T] = @[]
   for item in s:
     if predicate(item):
@@ -27,8 +25,6 @@ template map*[T, U](s: seq[T], transform: proc(x: T): U): seq[U] =
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.map(proc(x: int): int = x * 2) == @[2, 4, 6]
-  when not (transform is proc):
-    {.error: "map() requires a function/proc as second argument, got: " & $typeof(transform).}
   var result: seq[U] = @[]
   for item in s:
     result.add(transform(item))
@@ -40,8 +36,6 @@ template reduce*[T](s: seq[T], operation: proc(a, b: T): T): T =
   ## Example:
   ##   let nums = @[1, 2, 3, 4]
   ##   assert nums.reduce(proc(a, b: int): int = a + b) == 10
-  when not (operation is proc):
-    {.error: "reduce() requires a function/proc as second argument, got: " & $typeof(operation).}
   when compileOption("boundChecks"):
     if s.len == 0:
       raise newException(ValueError, "Cannot reduce empty sequence")

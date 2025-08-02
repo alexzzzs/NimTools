@@ -5,6 +5,14 @@ All notable changes to NimTools will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.4] - 2025-02-08
+
+### Fixed
+- **Fixed anonymous procedure ambiguity** in collections module
+- Removed `when not (predicate is proc)` checks that were causing compiler confusion
+- Original API now works correctly with anonymous procedures
+- Users can now use `nums.filter(proc(x: int): bool = x mod 2 == 0)` without issues
+
 ## [0.3.3] - 2025-02-08
 
 ### Fixed
