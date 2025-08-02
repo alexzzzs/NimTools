@@ -5,47 +5,58 @@ suite "Collections module tests":
   
   test "filter":
     let nums = @[1, 2, 3, 4, 5]
-    let evens = nums.filter(proc(x: int): bool = x mod 2 == 0)
+    proc isEven(x: int): bool = x mod 2 == 0
+    let evens = nums.filter(isEven)
     check evens == @[2, 4]
     
     let empty: seq[int] = @[]
     let emptyResult: seq[int] = @[]
-    check empty.filter(proc(x: int): bool = x > 0) == emptyResult
+    proc isPositive(x: int): bool = x > 0
+    check empty.filter(isPositive) == emptyResult
   
   test "map":
     let nums = @[1, 2, 3]
-    let doubled = nums.map(proc(x: int): int = x * 2)
+    proc double(x: int): int = x * 2
+    let doubled = nums.map(double)
     check doubled == @[2, 4, 6]
     
     let strings = @["a", "b", "c"]
-    let lengths = strings.map(proc(s: string): int = s.len)
+    proc getLength(s: string): int = s.len
+    let lengths = strings.map(getLength)
     check lengths == @[1, 1, 1]
   
   test "reduce":
     let nums = @[1, 2, 3, 4]
-    let sum = nums.reduce(proc(a, b: int): int = a + b)
+    proc add(a, b: int): int = a + b
+    let sum = nums.reduce(add)
     check sum == 10
     
-    let product = nums.reduce(proc(a, b: int): int = a * b)
+    proc multiply(a, b: int): int = a * b
+    let product = nums.reduce(multiply)
     check product == 24
   
   test "any":
     let nums = @[1, 2, 3]
-    check nums.any(proc(x: int): bool = x > 2)
-    check not nums.any(proc(x: int): bool = x > 5)
+    proc greaterThanTwo(x: int): bool = x > 2
+    check nums.any(greaterThanTwo)
+    proc greaterThanFive(x: int): bool = x > 5
+    check not nums.any(greaterThanFive)
     
     let empty: seq[int] = @[]
-    check not empty.any(proc(x: int): bool = x > 0)
+    proc isPositive(x: int): bool = x > 0
+    check not empty.any(isPositive)
   
   test "all":
     let evens = @[2, 4, 6]
-    check evens.all(proc(x: int): bool = x mod 2 == 0)
+    proc isEven(x: int): bool = x mod 2 == 0
+    check evens.all(isEven)
     
     let mixed = @[1, 2, 3]
-    check not mixed.all(proc(x: int): bool = x mod 2 == 0)
+    check not mixed.all(isEven)
     
     let empty: seq[int] = @[]
-    check empty.all(proc(x: int): bool = x > 0)  # vacuously true
+    proc isPositive(x: int): bool = x > 0
+    check empty.all(isPositive)  # vacuously true
   
   test "first and last":
     let nums = @[1, 2, 3]
