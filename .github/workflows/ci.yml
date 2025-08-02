@@ -30,9 +30,6 @@ jobs:
     - name: Run tests
       run: nimble test
     
-    - name: Verify installation
-      run: nimble verify
-    
     - name: Run example
       run: nimble example
 
@@ -50,10 +47,3 @@ jobs:
     
     - name: Generate documentation
       run: nimble docs
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./htmldocs

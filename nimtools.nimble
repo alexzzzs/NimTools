@@ -27,7 +27,7 @@ task test, "Run all tests":
 
 task docs, "Generate documentation":
   echo "Generating documentation..."
-  exec "nim doc --project --index:on --git.url:https://github.com/nimtools/nimtools --git.commit:main src/nimtools.nim"
+  exec "nim doc --project --index:on --git.url:https://github.com/alexzzzs/NimTools --git.commit:main src/nimtools.nim"
   echo "Documentation generated in htmldocs/"
 
 task example, "Run example":
