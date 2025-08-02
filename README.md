@@ -183,7 +183,7 @@ else:
 ```
 
 ### Validation Helpers
-Optional validation module for extra safety:
+Optional validation module for extra safety with exception-based error handling:
 
 ```nim
 import nimtools/validation
@@ -191,6 +191,10 @@ import nimtools/validation
 let data = @[1, 2, 3, 4]
 echo data.safeFirst        # 1 (with validation)
 echo data.safeChunk(2)     # @[@[1, 2], @[3, 4]] (with validation)
+
+# These will throw exceptions if invalid:
+let empty: seq[int] = @[]
+# echo empty.safeFirst     # ValueError: Cannot perform first on empty sequence
 ```
 
 See `ERROR_GUIDE.md` for comprehensive error handling examples and best practices.

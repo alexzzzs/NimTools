@@ -7,6 +7,7 @@ Complete reference for all NimTools APIs with examples and usage patterns.
 - [Numbers Module](#numbers-module)
 - [Strings Module](#strings-module)
 - [Collections Module](#collections-module)
+- [Validation Module](#validation-module)
 - [Import Guide](#import-guide)
 - [Type Information](#type-information)
 
@@ -472,6 +473,141 @@ assert strings.unique == @["a", "b", "c"]
 
 let empty: seq[int] = @[]
 assert empty.unique == @[]
+```
+
+---
+
+## Validation Module
+
+**Import**: `import nimtools/validation`
+
+The validation module provides safe wrappers and validation helpers that throw exceptions for invalid operations, helping catch errors early in development.
+
+### Validation Helpers
+
+#### `requireNonEmpty[T](s: seq[T], operation: string = "operation") -> void`
+Validate that a sequence is not empty before operations that require elements.
+
+```nim
+let nums = @[1, 2, 3]
+nums.requireNonEmpty("first")  # OK
+
+let empty: seq[int] = @[]
+# empty.requireNonEmpty("first")  # raises ValueError
+```
+
+#### `requirePositive(n: int, name: string = "value") -> void`
+Validate that an integer is positive.
+
+```nim
+let size = 5
+size.requirePositive("chunk size")  # OK
+
+let invalid = -1
+# invalid.requirePositive("chunk size")  # raises ValueError
+```
+
+#### `requireNonZero(n: SomeNumber, name: string = "value") -> void`
+Validate that a number is not zero.
+
+```nim
+let divisor = 5
+divisor.requireNonZero("divisor")  # OK
+
+let zero = 0
+# zero.requireNonZero("divisor")  # raises ValueError
+```
+
+#### `requireValidRange[T](min_val, max_val: T, operation: string = "operation") -> void`
+Validate that min <= max for range operations.
+
+```nim
+requireValidRange(1, 10, "clamp")  # OK
+# requireValidRange(10, 1, "clamp")  # raises ValueError
+```
+
+### Safe Wrappers
+
+#### `safeFirst[T](s: seq[T]) -> T`
+Safely get first element with validation (throws if empty).
+
+```nim
+let nums = @[1, 2, 3]
+echo nums.safeFirst  # 1
+
+let empty: seq[int] = @[]
+# echo empty.safeFirst  # raises ValueError
+```
+
+#### `safeLast[T](s: seq[T]) -> T`
+Safely get last element with validation (throws if empty).
+
+```nim
+let nums = @[1, 2, 3]
+echo nums.safeLast  # 3
+
+let empty: seq[int] = @[]
+# echo empty.safeLast  # raises ValueError
+```
+
+#### `safeReduce[T](s: seq[T], operation: proc(a, b: T): T) -> T`
+Safely reduce with validation (throws if empty).
+
+```nim
+let nums = @[1, 2, 3, 4]
+proc add(a, b: int): int = a + b
+echo nums.safeReduce(add)  # 10
+
+let empty: seq[int] = @[]
+# echo empty.safeReduce(add)  # raises ValueError
+```
+
+#### `safeChunk[T](s: seq[T], size: int) -> seq[seq[T]]`
+Safely chunk with validation (throws if size <= 0).
+
+```nim
+let nums = @[1, 2, 3, 4, 5]
+echo nums.safeChunk(2)  # @[@[1, 2], @[3, 4], @[5]]
+
+# nums.safeChunk(0)  # raises ValueError
+```
+
+#### `safeDivisibleBy(n: SomeInteger, divisor: SomeInteger) -> bool`
+Safely check divisibility with validation (throws if divisor is zero).
+
+```nim
+echo 10.safeDivisibleBy(5)  # true
+# echo 10.safeDivisibleBy(0)  # raises ValueError
+```
+
+#### `safeClamp[T](n: T, min_val, max_val: T) -> T`
+Safely clamp with validation (throws if min > max).
+
+```nim
+echo 15.safeClamp(1, 10)  # 10
+# echo 5.safeClamp(10, 1)  # raises ValueError
+```
+
+#### `safeRepeat(s: string, n: int) -> string`
+Safely repeat string with validation (throws if n < 0).
+
+```nim
+echo "hi".safeRepeat(3)  # "hihihi"
+# echo "hi".safeRepeat(-1)  # raises ValueError
+```
+
+### Error Handling Pattern
+
+```nim
+import nimtools/validation
+
+let data = getUserData()
+
+try:
+  echo data.safeFirst
+  echo data.safeChunk(2)
+except ValueError as e:
+  echo "Validation error: ", e.msg
 ```
 
 ---
