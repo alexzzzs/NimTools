@@ -1,0 +1,39 @@
+# Nim build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# Nim cache
+nimcache/
+htmldocs/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+tests/*.exe
+example.exe
+verify_install.exe
+
+# Scripts build artifacts
+scripts/*.exe
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Release artifacts
+dist/
+build/
