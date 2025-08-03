@@ -314,11 +314,3 @@ Contributions are welcome! Please ensure:
 
 MIT License - see LICENSE file for details.
 
-## Roadmap
-
-- [x] Collections helpers (filter, map, reduce as dot-calls)
-- [ ] Date/time utilities
-- [ ] Math constants and advanced operations
-- [ ] Optional macro-based DSLs
-- [ ] Advanced collections (groupBy, partition, etc.)
-- [ ] File system utilities
