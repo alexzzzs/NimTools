@@ -29,6 +29,58 @@ nimble install https://github.com/alexzzzs/NimTools.git@v0.3.8
 nimble install nimtools
 ```
 
+## Troubleshooting
+
+### Import Conflicts with Standard Library
+
+Some NimTools functions have the same names as standard library functions. Here's how to handle conflicts:
+
+#### Problem: `startsWith` ambiguity
+```nim
+import nimtools
+import strutils  # ❌ This causes conflicts!
+
+# Error: ambiguous call; both strings.startsWith and strutils.startsWith match
+echo "hello".startsWith("he")
+```
+
+#### Solution: Use selective imports
+```nim
+import nimtools
+from strutils import toLower  # ✅ Import only what you need
+
+# Now both work without conflicts
+echo "hello".startsWith("he")  # Uses NimTools version
+echo "HELLO".toLower           # Uses strutils version
+```
+
+#### Alternative: Qualify the call
+```nim
+import nimtools
+import strutils
+
+# Explicitly specify which one to use
+echo "hello".nimtools.startsWith("he")  # NimTools version
+echo strutils.startsWith("hello", "he") # Standard library version
+```
+
+### Common Import Patterns
+
+```nim
+# ✅ Recommended: Import only NimTools
+import nimtools
+
+# ✅ Safe: Selective imports from standard library
+import nimtools
+from strutils import toLower, toUpper
+from sequtils import deduplicate
+
+# ❌ Avoid: Full imports that cause conflicts
+import nimtools
+import strutils  # Can cause startsWith, endsWith conflicts
+import sequtils  # Can cause filter, map conflicts
+```
+
 ## Quick Start
 
 ```nim
