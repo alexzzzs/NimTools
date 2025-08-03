@@ -13,11 +13,18 @@ A lightweight, zero-dependency Nim library that provides expressive, safe, and i
 
 ## Installation
 
+### From GitHub (Available Now)
 ```bash
-# Install from GitHub
+# Install latest version
 nimble install https://github.com/alexzzzs/NimTools.git
 
-# Or when approved for Nimble registry
+# Install specific version
+nimble install https://github.com/alexzzzs/NimTools.git@v0.3.7
+```
+
+### From Nimble Registry (Coming Soon)
+```bash
+# Once approved for official registry
 nimble install nimtools
 ```
 
