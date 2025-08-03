@@ -36,7 +36,7 @@ task docs, "Generate documentation":
 
 task example, "Run example":
   echo "Running example..."
-  exec "nim c -r example.nim"
+  exec "nim c -r --path:./src example.nim"
 
 task clean, "Clean build artifacts":
   echo "Cleaning build artifacts..."
