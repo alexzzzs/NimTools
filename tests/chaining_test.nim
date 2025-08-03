@@ -51,9 +51,9 @@ suite "Chaining module tests":
   
   test "empty sequence chaining":
     let empty: seq[int] = @[]
-    let result = empty.filter(proc(x: int): bool = x > 0)
-                     .map(proc(x: int): int = x * 2)
-    check result == @[]
+    let filtered = empty.filter(proc(x: int): bool = x > 0)
+    let result = filtered.map(proc(x: int): int = x * 2)
+    check result.len == 0
   
   test "single element chaining":
     let single = @[5]
