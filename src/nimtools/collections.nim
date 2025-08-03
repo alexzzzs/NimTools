@@ -4,6 +4,7 @@
 ## operations on Nim's built-in collection types using template-based dot-call syntax.
 
 import std/algorithm
+import nimtools/chaining
 
 ## Functional programming helpers
 
@@ -17,7 +18,6 @@ template filter*[T](s: seq[T], predicate: untyped): untyped =
   ##   # Chaining also works!
   ##   let result = nums.filter(proc(x: int): bool = x.isEven)
   ##                   .map(proc(x: int): int = x.square)
-  import nimtools/chaining
   s.chainFilter(predicate)
 
 template map*[T](s: seq[T], transform: untyped): untyped =
@@ -30,7 +30,6 @@ template map*[T](s: seq[T], transform: untyped): untyped =
   ##   # Chaining also works!
   ##   let result = nums.filter(proc(x: int): bool = x.isEven)
   ##                   .map(proc(x: int): int = x.square)
-  import nimtools/chaining
   s.chainMap(transform)
 
 template reduce*[T](s: seq[T], operation: untyped): untyped =
@@ -43,7 +42,6 @@ template reduce*[T](s: seq[T], operation: untyped): untyped =
   ##   # Chaining also works!
   ##   let result = nums.filter(proc(x: int): bool = x.isEven)
   ##                   .reduce(proc(a, b: int): int = a + b)
-  import nimtools/chaining
   s.chainReduce(operation)
 
 template any*[T](s: seq[T], predicate: untyped): bool =
