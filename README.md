@@ -96,10 +96,10 @@ echo "hello".startsWith("he")  # true
 echo "  trim me  ".trim        # "trim me"
 echo "123".toIntSafe.get       # 123
 
-# Collections - Beautiful chained operations! 🎉
+# Collections - Beautiful chained operations! 
 let nums = @[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-# THE DREAM SYNTAX NOW WORKS!
+# THIS SYNTAX NOW WORKS!
 let result = nums.filter(proc(x: int): bool = x.isEven)
                 .map(proc(x: int): int = x.square)
 echo result  # @[4, 16, 36, 64, 100]
@@ -273,7 +273,7 @@ let empty: seq[int] = @[]
 
 See `ERROR_GUIDE.md` for comprehensive error handling examples and best practices.
 
-## 🎉 Breakthrough: Fluent Chaining Now Works!
+## RECENT Breakthrough: Fluent Chaining Now Works!
 
 **We solved the anonymous proc limitation!** Using advanced macro techniques, NimTools now supports the beautiful chained syntax you've always wanted:
 

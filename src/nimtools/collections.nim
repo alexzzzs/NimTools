@@ -7,45 +7,44 @@ import std/algorithm
 
 ## Functional programming helpers
 
-template filter*[T](s: seq[T], predicate: untyped): seq[T] =
-  ## Filter sequence elements that match the predicate
+template filter*[T](s: seq[T], predicate: untyped): untyped =
+  ## Filter sequence elements that match the predicate (with chaining support)
   ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.filter(proc(x: int): bool = x mod 2 == 0) == @[2, 4]
-  (block:
-    var result: seq[T] = @[]
-    for item in s:
-      if predicate(item):
-        result.add(item)
-    result)
+  ##   
+  ##   # Chaining also works!
+  ##   let result = nums.filter(proc(x: int): bool = x.isEven)
+  ##                   .map(proc(x: int): int = x.square)
+  import nimtools/chaining
+  s.chainFilter(predicate)
 
 template map*[T](s: seq[T], transform: untyped): untyped =
-  ## Transform each element in the sequence
+  ## Transform each element in the sequence (with chaining support)
   ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.map(proc(x: int): int = x * 2) == @[2, 4, 6]
-  (block:
-    var result: seq[type(transform(s[0]))] = @[]
-    for item in s:
-      result.add(transform(item))
-    result)
+  ##   
+  ##   # Chaining also works!
+  ##   let result = nums.filter(proc(x: int): bool = x.isEven)
+  ##                   .map(proc(x: int): int = x.square)
+  import nimtools/chaining
+  s.chainMap(transform)
 
-template reduce*[T](s: seq[T], operation: untyped): T =
-  ## Reduce sequence to a single value using the operation
+template reduce*[T](s: seq[T], operation: untyped): untyped =
+  ## Reduce sequence to a single value using the operation (with chaining support)
   ##
   ## Example:
   ##   let nums = @[1, 2, 3, 4]
   ##   assert nums.reduce(proc(a, b: int): int = a + b) == 10
-  (block:
-    when compileOption("boundChecks"):
-      if s.len == 0:
-        raise newException(ValueError, "Cannot reduce empty sequence")
-    var result = s[0]
-    for i in 1..<s.len:
-      result = operation(result, s[i])
-    result)
+  ##   
+  ##   # Chaining also works!
+  ##   let result = nums.filter(proc(x: int): bool = x.isEven)
+  ##                   .reduce(proc(a, b: int): int = a + b)
+  import nimtools/chaining
+  s.chainReduce(operation)
 
 template any*[T](s: seq[T], predicate: untyped): bool =
   ## Check if any element matches the predicate
