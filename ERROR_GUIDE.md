@@ -2,6 +2,32 @@
 
 This guide helps you understand and fix common errors when using NimTools.
 
+## Most Common Issue: Anonymous Proc Redefinition
+
+**Error:**
+```
+Error: redefinition of ':anonymous'; previous declaration here: ...
+```
+
+**Problem:**
+Multiple anonymous procs in the same expression cause Nim compiler conflicts.
+
+**Solution:**
+Split operations into separate statements:
+
+```nim
+# ❌ This fails
+let result = nums.filter(proc(x: int): bool = x.isEven).map(proc(x: int): int = x.square)
+let piped = 5 |> (proc(x: int): int = x.square) |> (proc(x: int): int = x + 1)
+
+# ✅ This works
+let evens = nums.filter(proc(x: int): bool = x.isEven)
+let result = evens.map(proc(x: int): int = x.square)
+
+let step1 = 5 |> (proc(x: int): int = x.square)
+let piped = step1 |> (proc(x: int): int = x + 1)
+```
+
 ## Common Type Errors
 
 ### 1. Using number functions on strings

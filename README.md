@@ -42,6 +42,12 @@ echo 15.clamp(1, 10) # 10
 echo "hello".startsWith("he")  # true
 echo "  trim me  ".trim        # "trim me"
 echo "123".toIntSafe.get       # 123
+
+# Collections (split operations to avoid anonymous proc conflicts)
+let nums = @[1, 2, 3, 4, 5]
+let evens = nums.filter(proc(x: int): bool = x.isEven)
+let squares = evens.map(proc(x: int): int = x.square)
+echo squares  # @[4, 16]
 ```
 
 ## Modules
@@ -205,6 +211,21 @@ let empty: seq[int] = @[]
 ```
 
 See `ERROR_GUIDE.md` for comprehensive error handling examples and best practices.
+
+## Important Usage Note
+
+Due to a Nim compiler limitation, avoid multiple anonymous procs in the same expression:
+
+```nim
+# ❌ This causes "redefinition of ':anonymous'" error
+let result = nums.filter(proc(x: int): bool = x.isEven).map(proc(x: int): int = x.square)
+
+# ✅ Split into separate statements instead
+let evens = nums.filter(proc(x: int): bool = x.isEven)
+let result = evens.map(proc(x: int): int = x.square)
+```
+
+This applies to chained operations and pipe operators with multiple inline procs.
 
 ## Design Philosophy
 
