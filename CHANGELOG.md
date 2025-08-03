@@ -96,6 +96,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generic type support with proper constraints
 - Full type safety with compile-time checking
 
+## [0.3.7] - 2025-01-02
+
+### Fixed
+- **Inline proc syntax** now works perfectly with collections module
+- Fixed template scoping issues that caused anonymous proc redefinition errors
+- Fixed validation module templates to return proper values instead of void
+- All original API syntax now works as intended: `nums.filter(proc(x: int): bool = x.isEven)`
+- Comprehensive test coverage demonstrates full functionality
+
 ## [0.3.0] - 2025-01-02
 
 ### Added
