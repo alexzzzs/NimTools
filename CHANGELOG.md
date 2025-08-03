@@ -96,6 +96,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generic type support with proper constraints
 - Full type safety with compile-time checking
 
+## [0.3.8] - 2025-01-02
+
+### Fixed
+- **Critical fix**: Resolved anonymous proc redefinition errors in chained operations
+- Fixed template scoping issues that prevented inline proc syntax from working
+- All original API syntax now works perfectly: `nums.filter(proc(x: int): bool = x.isEven).map(proc(x: int): int = x.square)`
+- Comprehensive testing confirms all functionality works as intended
+
 ## [0.3.7] - 2025-01-02
 
 ### Fixed
