@@ -237,3 +237,94 @@ template hasItem*[T](s: seq[T], item: T): bool =
   ##   assert nums.hasItem(2)
   ##   assert not nums.hasItem(4)
   item in s
+
+## Convenience methods - Syntactic sugar for common operations
+
+template sumAll*[T](s: seq[T]): T =
+  ## Sum all elements in the sequence
+  ##
+  ## Example:
+  ##   let nums = @[1, 2, 3, 4, 5]
+  ##   assert nums.sum == 15
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(ValueError, "Cannot sum empty sequence")
+  s.reduce(proc(a, b: T): T = a + b)
+
+template sum*[T](s: seq[T]): T =
+  ## Sum all elements in the sequence (alias for sumAll)
+  ##
+  ## Example:
+  ##   let nums = @[1, 2, 3, 4, 5]
+  ##   assert nums.sum == 15
+  s.sumAll
+
+template product*[T](s: seq[T]): T =
+  ## Multiply all elements in the sequence
+  ##
+  ## Example:
+  ##   let nums = @[2, 3, 4]
+  ##   assert nums.product == 24
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(ValueError, "Cannot get product of empty sequence")
+  s.reduce(proc(a, b: T): T = a * b)
+
+template min*[T](s: seq[T]): T =
+  ## Find the minimum element in the sequence
+  ##
+  ## Example:
+  ##   let nums = @[3, 1, 4, 1, 5]
+  ##   assert nums.min == 1
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(ValueError, "Cannot find min of empty sequence")
+  s.reduce(proc(a, b: T): T = (if a < b: a else: b))
+
+template max*[T](s: seq[T]): T =
+  ## Find the maximum element in the sequence
+  ##
+  ## Example:
+  ##   let nums = @[3, 1, 4, 1, 5]
+  ##   assert nums.max == 5
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(ValueError, "Cannot find max of empty sequence")
+  s.reduce(proc(a, b: T): T = (if a > b: a else: b))
+
+template average*[T](s: seq[T]): float =
+  ## Calculate the average of all elements in the sequence
+  ##
+  ## Example:
+  ##   let nums = @[1, 2, 3, 4, 5]
+  ##   assert nums.average == 3.0
+  when compileOption("boundChecks"):
+    if s.len == 0:
+      raise newException(ValueError, "Cannot average empty sequence")
+  float(s.sumAll) / float(s.len)
+
+template count*[T](s: seq[T], predicate: untyped): int =
+  ## Count elements that match the predicate
+  ##
+  ## Example:
+  ##   let nums = @[1, 2, 3, 4, 5]
+  ##   assert nums.count(proc(x: int): bool = x.isEven) == 2
+  var result = 0
+  for item in s:
+    if predicate(item):
+      inc result
+  result
+
+template join*[T](s: seq[T], separator: string = ", "): string =
+  ## Join sequence elements into a string with separator
+  ##
+  ## Example:
+  ##   let nums = @[1, 2, 3]
+  ##   assert nums.join() == "1, 2, 3"
+  ##   assert nums.join(" | ") == "1 | 2 | 3"
+  var result = ""
+  for i, item in s:
+    if i > 0:
+      result.add(separator)
+    result.add($item)
+  result

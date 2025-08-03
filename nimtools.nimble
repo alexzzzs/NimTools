@@ -26,6 +26,7 @@ task test, "Run all tests":
   exec "nim c -r tests/error_handling_test.nim"
   exec "nim c -r tests/validation_test.nim"
   exec "nim c -r tests/chaining_test.nim"
+  exec "nim c -r tests/convenience_test.nim"
   echo "All tests completed successfully!"
 
 task docs, "Generate documentation":
