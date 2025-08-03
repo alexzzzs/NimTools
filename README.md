@@ -20,7 +20,7 @@ A lightweight, zero-dependency Nim library that provides expressive, safe, and i
 nimble install https://github.com/alexzzzs/NimTools.git
 
 # Install specific version
-nimble install https://github.com/alexzzzs/NimTools.git@v0.4.0
+nimble install https://github.com/alexzzzs/NimTools.git@v0.4.1
 ```
 
 ### From Nimble Registry (Coming Soon)

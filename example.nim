@@ -1,7 +1,7 @@
 import nimtools
 import std/options
 
-echo "=== NimTools v0.4.0 - Revolutionary Chaining Example ==="
+echo "=== NimTools v0.4.1 - Revolutionary Chaining Example ==="
 
 # Numbers module
 echo "\nNumbers:"

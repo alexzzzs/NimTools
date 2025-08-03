@@ -96,6 +96,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generic type support with proper constraints
 - Full type safety with compile-time checking
 
+## [0.4.1] - 2025-08-03
+
+### Fixed
+- **Fixed nimble example task** to use local development version instead of installed package
+- Resolved issue where `nimble example` would fail with "undeclared field: 'sum'" error
+- Example now properly demonstrates all convenience methods (sum, product, min, max, etc.)
+
+### Technical
+- Updated nimble example task to use `--path:./src` flag for local development
+- Ensures development examples always use latest local features
+
 ## [0.4.0] - 2025-01-02
 
 ### 🎉 BREAKTHROUGH: Fluent Method Chaining!
