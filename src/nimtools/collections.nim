@@ -13,24 +13,24 @@ template filter*[T](s: seq[T], predicate: untyped): seq[T] =
   ## Example:
   ##   let nums = @[1, 2, 3, 4, 5]
   ##   assert nums.filter(proc(x: int): bool = x mod 2 == 0) == @[2, 4]
-  block:
+  (block:
     var result: seq[T] = @[]
     for item in s:
       if predicate(item):
         result.add(item)
-    result
+    result)
 
-template map*[T, U](s: seq[T], transform: untyped): seq[U] =
+template map*[T](s: seq[T], transform: untyped): untyped =
   ## Transform each element in the sequence
   ##
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.map(proc(x: int): int = x * 2) == @[2, 4, 6]
-  block:
-    var result: seq[U] = @[]
+  (block:
+    var result: seq[type(transform(s[0]))] = @[]
     for item in s:
       result.add(transform(item))
-    result
+    result)
 
 template reduce*[T](s: seq[T], operation: untyped): T =
   ## Reduce sequence to a single value using the operation
@@ -38,14 +38,14 @@ template reduce*[T](s: seq[T], operation: untyped): T =
   ## Example:
   ##   let nums = @[1, 2, 3, 4]
   ##   assert nums.reduce(proc(a, b: int): int = a + b) == 10
-  block:
+  (block:
     when compileOption("boundChecks"):
       if s.len == 0:
         raise newException(ValueError, "Cannot reduce empty sequence")
     var result = s[0]
     for i in 1..<s.len:
       result = operation(result, s[i])
-    result
+    result)
 
 template any*[T](s: seq[T], predicate: untyped): bool =
   ## Check if any element matches the predicate
@@ -53,13 +53,13 @@ template any*[T](s: seq[T], predicate: untyped): bool =
   ## Example:
   ##   let nums = @[1, 2, 3]
   ##   assert nums.any(proc(x: int): bool = x > 2)
-  block:
+  (block:
     var result = false
     for item in s:
       if predicate(item):
         result = true
         break
-    result
+    result)
 
 template all*[T](s: seq[T], predicate: untyped): bool =
   ## Check if all elements match the predicate
@@ -67,13 +67,13 @@ template all*[T](s: seq[T], predicate: untyped): bool =
   ## Example:
   ##   let nums = @[2, 4, 6]
   ##   assert nums.all(proc(x: int): bool = x mod 2 == 0)
-  block:
+  (block:
     var result = true
     for item in s:
       if not predicate(item):
         result = false
         break
-    result
+    result)
 
 template first*[T](s: seq[T]): T =
   ## Get the first element of the sequence

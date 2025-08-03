@@ -6,29 +6,29 @@ suite "Validation module tests":
   test "requireNonEmpty":
     let nums = @[1, 2, 3]
     # Should not raise
-    nums.requireNonEmpty("test")
+    discard nums.requireNonEmpty("test")
     
     let empty: seq[int] = @[]
     expect(ValueError):
-      empty.requireNonEmpty("test")
+      discard empty.requireNonEmpty("test")
   
   test "requirePositive":
     # Should not raise
-    5.requirePositive("test")
+    discard 5.requirePositive("test")
     
     expect(ValueError):
-      0.requirePositive("test")
+      discard 0.requirePositive("test")
     
     expect(ValueError):
-      (-1).requirePositive("test")
+      discard (-1).requirePositive("test")
   
   test "requireNonZero":
     # Should not raise
-    5.requireNonZero("test")
-    (-5).requireNonZero("test")
+    discard 5.requireNonZero("test")
+    discard (-5).requireNonZero("test")
     
     expect(ValueError):
-      0.requireNonZero("test")
+      discard 0.requireNonZero("test")
   
   test "requireValidRange":
     # Should not raise

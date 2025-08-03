@@ -100,7 +100,7 @@ template near*(a: SomeFloat, b: SomeFloat, epsilon: SomeFloat = 1e-9): bool =
 
 ## Pipe operator
 
-template `|>`*[T, U](x: T, f: proc(x: T): U): U =
+template `|>`*(x: auto, f: untyped): auto =
   ## Pipe operator for functional-style chaining
   ##
   ## Example:
