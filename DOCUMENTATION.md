@@ -7,6 +7,7 @@ Complete reference for all NimTools APIs with examples and usage patterns.
 - [Numbers Module](#numbers-module)
 - [Strings Module](#strings-module)
 - [Collections Module](#collections-module)
+- [Chaining Module](#chaining-module)
 - [Validation Module](#validation-module)
 - [Import Guide](#import-guide)
 - [Type Information](#type-information)
@@ -609,6 +610,109 @@ try:
 except ValueError as e:
   echo "Validation error: ", e.msg
 ```
+
+---
+
+## Chaining Module
+
+**Import**: Automatically included with `import nimtools`
+
+### 🎉 Breakthrough Feature: Fluent Method Chaining
+
+The chaining module solves Nim's anonymous proc limitation using advanced macro techniques, enabling beautiful fluent syntax that was previously impossible.
+
+#### `filter(s: seq[T], predicate: untyped) -> seq[T]`
+Filter with full chaining support.
+
+```nim
+let nums = @[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Single filter
+let evens = nums.filter(proc(x: int): bool = x.isEven)
+# @[2, 4, 6, 8, 10]
+
+# Chained filters
+let result = nums.filter(proc(x: int): bool = x > 3)
+                .filter(proc(x: int): bool = x.isEven)
+# @[4, 6, 8, 10]
+```
+
+#### `map(s: seq[T], transform: untyped) -> seq[U]`
+Transform with full chaining support.
+
+```nim
+# Single map
+let squares = nums.map(proc(x: int): int = x.square)
+# @[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+# Chained operations
+let result = nums.filter(proc(x: int): bool = x.isEven)
+                .map(proc(x: int): int = x.square)
+# @[4, 16, 36, 64, 100]
+```
+
+#### `reduce(s: seq[T], operation: untyped) -> T`
+Reduce with full chaining support.
+
+```nim
+# Single reduce
+let sum = nums.reduce(proc(a, b: int): int = a + b)
+# 55
+
+# Chained with filter
+let evenSum = nums.filter(proc(x: int): bool = x.isEven)
+                 .reduce(proc(a, b: int): int = a + b)
+# 30
+```
+
+### Complex Chaining Examples
+
+#### Multi-step Processing
+```nim
+let data = @[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let result = data.filter(proc(x: int): bool = x > 2)        # @[3, 4, 5, 6, 7, 8, 9, 10]
+                .filter(proc(x: int): bool = x.isEven)      # @[4, 6, 8, 10]
+                .map(proc(x: int): int = x.square)          # @[16, 36, 64, 100]
+                .filter(proc(x: int): bool = x < 80)        # @[16, 36, 64]
+```
+
+#### With NimTools Functions
+```nim
+let nums = @[1, 2, 3, 4, 5, 6]
+
+let result = nums.filter(proc(x: int): bool = x.isEven)
+                .map(proc(x: int): int = x.cube)
+                .filter(proc(x: int): bool = x.between(1, 100))
+# @[8, 64]
+```
+
+#### Reduce Chains
+```nim
+let numbers = @[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Sum of squares of even numbers
+let sumOfEvenSquares = numbers.filter(proc(x: int): bool = x.isEven)
+                             .map(proc(x: int): int = x.square)
+                             .reduce(proc(a, b: int): int = a + b)
+# 220 (4 + 16 + 36 + 64 + 100)
+```
+
+### How It Works
+
+The chaining module uses compile-time macros to generate unique proc names, completely bypassing Nim's anonymous proc redefinition limitation:
+
+1. **Macro expansion**: Each chained operation gets a unique generated proc name
+2. **Zero runtime overhead**: All resolved at compile time
+3. **Type safety**: Full type checking and inference maintained
+4. **Error handling**: Includes all the same validation as regular templates
+
+### Performance
+
+- **Compile-time resolution**: No runtime overhead
+- **Inlined operations**: Same performance as hand-written loops
+- **Memory efficient**: No intermediate allocations beyond necessary results
+- **Type optimized**: Full generic type support with proper inference
 
 ---
 

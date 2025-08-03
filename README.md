@@ -6,6 +6,7 @@ A lightweight, zero-dependency Nim library that provides expressive, safe, and i
 
 - **Zero runtime overhead**: All helpers are implemented as templates that inline at compile time
 - **Dot-call friendly**: Natural syntax like `num.isEven` or `str.startsWith("x")`
+- **Fluent chaining**: Beautiful method chaining with anonymous procs that actually works!
 - **Modular design**: Import only what you need
 - **Type safe**: Uses Nim's type system and generics appropriately
 - **Error handling**: Comprehensive runtime validation and safe conversion functions
@@ -43,11 +44,19 @@ echo "hello".startsWith("he")  # true
 echo "  trim me  ".trim        # "trim me"
 echo "123".toIntSafe.get       # 123
 
-# Collections (split operations to avoid anonymous proc conflicts)
-let nums = @[1, 2, 3, 4, 5]
-let evens = nums.filter(proc(x: int): bool = x.isEven)
-let squares = evens.map(proc(x: int): int = x.square)
-echo squares  # @[4, 16]
+# Collections - Beautiful chained operations! 🎉
+let nums = @[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# THE DREAM SYNTAX NOW WORKS!
+let result = nums.filter(proc(x: int): bool = x.isEven)
+                .map(proc(x: int): int = x.square)
+echo result  # @[4, 16, 36, 64, 100]
+
+# Complex chaining also works
+let complex = nums.filter(proc(x: int): bool = x > 3)
+                 .filter(proc(x: int): bool = x.isOdd)
+                 .map(proc(x: int): int = x * 2)
+echo complex  # @[10, 14, 18]
 ```
 
 ## Modules
@@ -212,20 +221,23 @@ let empty: seq[int] = @[]
 
 See `ERROR_GUIDE.md` for comprehensive error handling examples and best practices.
 
-## Important Usage Note
+## 🎉 Breakthrough: Fluent Chaining Now Works!
 
-Due to a Nim compiler limitation, avoid multiple anonymous procs in the same expression:
+**We solved the anonymous proc limitation!** Using advanced macro techniques, NimTools now supports the beautiful chained syntax you've always wanted:
 
 ```nim
-# ❌ This causes "redefinition of ':anonymous'" error
-let result = nums.filter(proc(x: int): bool = x.isEven).map(proc(x: int): int = x.square)
+# ✨ THIS NOW WORKS! ✨
+let result = nums.filter(proc(x: int): bool = x.isEven)
+                .map(proc(x: int): int = x.square)
+                .reduce(proc(a, b: int): int = a + b)
 
-# ✅ Split into separate statements instead
-let evens = nums.filter(proc(x: int): bool = x.isEven)
-let result = evens.map(proc(x: int): int = x.square)
+# Complex multi-step chaining
+let complex = data.filter(proc(x: int): bool = x > 5)
+                 .filter(proc(x: int): bool = x.isOdd)
+                 .map(proc(x: int): int = x.cube)
 ```
 
-This applies to chained operations and pipe operators with multiple inline procs.
+**How it works:** Compile-time macros generate unique proc names, completely bypassing Nim's anonymous proc conflicts while maintaining zero runtime overhead!
 
 ## Design Philosophy
 

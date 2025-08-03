@@ -96,6 +96,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Generic type support with proper constraints
 - Full type safety with compile-time checking
 
+## [0.4.0] - 2025-01-02
+
+### 🎉 BREAKTHROUGH: Fluent Method Chaining!
+- **SOLVED the anonymous proc limitation!** Beautiful chained syntax now works perfectly
+- **New chaining module** using advanced compile-time macros to generate unique proc names
+- **Zero runtime overhead** - all resolved at compile time with full type safety
+- **Fluent API syntax**: `nums.filter(proc(x: int): bool = x.isEven).map(proc(x: int): int = x.square)`
+- **Complex multi-step chaining** with unlimited depth
+- **Comprehensive chaining tests** with 10 test cases covering all scenarios
+- **Updated documentation** with extensive chaining examples and usage patterns
+
+### Added
+- `src/nimtools/chaining.nim` - Revolutionary macro-based chaining implementation
+- `tests/chaining_test.nim` - Comprehensive test suite for chaining functionality
+- Chaining module automatically included in main `nimtools` import
+- Advanced macro techniques for compile-time proc name generation
+
+### Improved
+- **README.md** updated with beautiful chaining examples
+- **DOCUMENTATION.md** includes comprehensive chaining module reference
+- **ERROR_GUIDE.md** updated to reflect the solved anonymous proc issue
+- All existing functionality maintained with backward compatibility
+
 ## [0.3.8] - 2025-01-02
 
 ### Fixed

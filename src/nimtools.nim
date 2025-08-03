@@ -7,8 +7,10 @@ import nimtools/numbers
 import nimtools/strings
 import nimtools/collections
 import nimtools/validation
+import nimtools/chaining
 
 export numbers
 export strings
 export collections
 export validation
+export chaining
